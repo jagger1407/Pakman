@@ -18,6 +18,7 @@ Pak* pak_Create(const char* path) {
     pak->offsets = NULL;
     pak->fp = file;
     pak->sections = NULL;
+    return pak;
 }
 
 Pak* pak_Open(const char* path, int readSections) {
