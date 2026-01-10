@@ -85,11 +85,9 @@ DirFiles* ReadDirFiles(const char* dirpath) {
 
     int fcount = 0;
 #ifdef _WIN32
-#include <windows.h>
-#define PATH_SEP '\\'
 
     char searchpath[MAX_PATH];
-    snprintf(searchpath, sizeof(search_path), "%s\\*", dirpath);
+    snprintf(searchpath, sizeof(searchpath), "%s\\*", dirpath);
     
     WIN32_FIND_DATA fd;
     HANDLE hFind = FindFirstFile(searchpath, &fd);
@@ -97,7 +95,7 @@ DirFiles* ReadDirFiles(const char* dirpath) {
     if (hFind == INVALID_HANDLE_VALUE) {
         fputs("Error opening directory.\n", stderr);
         perror(NULL);
-        return;
+        return NULL;
     }
 
     do {
@@ -120,7 +118,7 @@ DirFiles* ReadDirFiles(const char* dirpath) {
     if (hFind == INVALID_HANDLE_VALUE) {
         fputs("Error opening directory.\n", stderr);
         perror(NULL);
-        return;
+        return NULL;
     }
     do {
         if (strcmp(fd.cFileName, ".") == 0 || 
@@ -137,11 +135,6 @@ DirFiles* ReadDirFiles(const char* dirpath) {
 
 #endif
 #ifdef __linux__
-
-#define PATH_SEP '/'
-
-#include <dirent.h>
-#include <sys/stat.h>
 
     DIR* dir = opendir(dirpath);
     if(!dir) {

@@ -14,11 +14,14 @@ typedef struct _dirFiles {
 #ifdef _WIN32
 
 #define PATH_SEP '\\'
+#include <windows.h>
 
 #endif
 #ifdef __linux__
 
 #define PATH_SEP '/'
+#include <dirent.h>
+#include <sys/stat.h>
 
 #endif
 
