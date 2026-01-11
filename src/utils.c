@@ -10,8 +10,8 @@ u32 StrCountChar(char* str, char c) {
 }
 
 char* StrLower(char* str) {
-    int len = strlen(str+1);
-    char* lwr = (char*)malloc(len);
+    int len = strlen(str);
+    char* lwr = (char*)malloc(len+1);
     lwr[len] = 0x00;
     strcpy(lwr, str);
 
