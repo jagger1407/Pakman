@@ -23,7 +23,7 @@ int Unpack(int argc, char** argv) {
 
     char** sectionNames = NULL;
     if(argc >= 5) {
-        sectionNames = ReadFileLines(argv[3], NULL);
+        sectionNames = ReadFileLines(argv[4], NULL);
     }
 
     Pak* pak = pak_Open(argv[2], false);
