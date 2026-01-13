@@ -32,6 +32,8 @@ u32 StrCountChar(char* str, char c);
 
 char* StrLower(char* str);
 
+u64 GetFileSize(const char* path);
+
 /**
  * Reads every line of a file.
  * @note Empty lines will be skipped.

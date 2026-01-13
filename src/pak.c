@@ -50,9 +50,7 @@ Pak* pak_Open(const char* path, int readSections) {
         return NULL;
     }
     fseek(pak->fp, 0, SEEK_SET);
-    u32 size = ftell(pak->fp);
-    fseek(pak->fp, 0, SEEK_END);
-    size = ftell(pak->fp) - size;
+    u32 size = GetFileSize(path);
     if(size != pak->offsets[pak->amountSections]) {
         fputs("pak_Open - File size mismatch (File size != Last offset)\n", stderr);
         pak_Free(pak);

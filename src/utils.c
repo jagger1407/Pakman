@@ -25,6 +25,41 @@ char* StrLower(char* str) {
     return lwr;
 }
 
+u64 GetFileSize(const char* path) {
+    if (path == NULL || strlen(path) == 0) {
+        return 0;
+    }
+
+    u64 size = 0;
+
+#ifdef _WIN32
+
+    WIN32_FILE_ATTRIBUTE_DATA info;
+    
+    if (!GetFileAttributesExA(path, GetFileExInfoStandard, &info)) {
+        return 0;
+    }
+    if (info.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) {
+        return 0;
+    }
+    
+    size = ((u64)info.nFileSizeHigh << 32) | info.nFileSizeLow;
+
+#endif
+#ifdef __linux__
+
+    struct stat st;
+    lstat(path, &st);
+    if(S_ISDIR(st.st_mode)) {
+        return 0;
+    }
+    size = st.st_size;
+
+#endif
+
+    return size;
+}
+
 char** ReadFileLines(const char* path, int* lineCount) {
     if(path == NULL || *path == 0x00) {
         fputs("ERROR: section name file invalid.\n", stderr);
@@ -38,10 +73,7 @@ char** ReadFileLines(const char* path, int* lineCount) {
         return NULL;
     }
 
-    u64 size = ftell(fp);
-    fseek(fp, 0, SEEK_END);
-    size = ftell(fp) - size;
-    fseek(fp, 0, SEEK_SET);
+    u64 size = GetFileSize(path);
 
     char* rawFile = (char*)malloc(size+1);
     rawFile[size] = 0x00;
@@ -128,7 +160,7 @@ DirFiles* ReadDirFiles(const char* dirpath) {
         }
         
         files->list[fcount] = (char*)malloc(0x100);
-        strncpy(files->list[fcount], fd.cFileName, 0x100);
+        strncpy(files->list[fcount], fd.cFileName, 0xFF);
         fcount++;
 
     } while (FindNextFile(hFind, &fd) != 0);
@@ -150,7 +182,7 @@ DirFiles* ReadDirFiles(const char* dirpath) {
             continue;
         }
         memset(fpath, 0x00, 0x400);
-        strncpy(fpath, dirpath, 0x400);
+        strncpy(fpath, dirpath, 0x3FF);
         if(fpath[strlen(fpath)-1] != PATH_SEP) {
             fpath[strlen(fpath)] = PATH_SEP;
         }
@@ -179,7 +211,7 @@ DirFiles* ReadDirFiles(const char* dirpath) {
             continue;
         }
         memset(fpath, 0x00, 0x400);
-        strncpy(fpath, dirpath, 0x400);
+        strncpy(fpath, dirpath, 0x3FF);
         if(fpath[strlen(fpath)-1] != PATH_SEP) {
             fpath[strlen(fpath)] = PATH_SEP;
         }
@@ -191,7 +223,7 @@ DirFiles* ReadDirFiles(const char* dirpath) {
         }
         
         files->list[fcount] = (char*)malloc(0x100);
-        strncpy(files->list[fcount], entry->d_name, 0x100);
+        strncpy(files->list[fcount], entry->d_name, 0xFF);
         fcount++;
 
         entry = readdir(dir);

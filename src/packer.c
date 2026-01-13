@@ -85,12 +85,8 @@ int Pack(int argc, char** argv) {
             FreeFileLines(sectionNames);
             return 4;
         }
-        // This is not a good way of getting the filesize
-        // But it works and that's all I really care about
-        sections[i].size = ftell(fp);
-        fseek(fp, 0, SEEK_END);
-        sections[i].size = ftell(fp) - sections[i].size;
-        fseek(fp, 0, SEEK_SET);
+
+        sections[i].size = GetFileSize(path);
 
         sections[i].data = (u8*)malloc(sections[i].size);
         fread(sections[i].data, 1, sections[i].size, fp);
