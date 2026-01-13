@@ -32,10 +32,11 @@ int Unpack(int argc, char** argv) {
         return 2;
     }
     int oflen = strlen(argv[3]);
+    int len = 0x100;
     for(int i=0;i<pak->amountSections;i++) {
-        char outname[0x100];
-        memset(outname, 0x00, 0x100);
-        strncpy(outname, argv[3], 0x100);
+        char outname[len];
+        memset(outname, 0x00, len);
+        strncpy(outname, argv[3], len-1);
         if(outname[oflen-1] != PATH_SEP)
             outname[oflen] = PATH_SEP;
         if(sectionNames != NULL) {
