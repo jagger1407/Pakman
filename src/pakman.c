@@ -16,15 +16,16 @@ int main(int argc, char** argv) {
     }
 
     char* arglow = StrLower(argv[1]);
-
+    int ret = 1;
     if(strcmp(arglow, "pack") == 0) {
-        return Pack(argc, argv);
+         ret = Pack(argc, argv);
     }
     else if(strcmp(arglow, "unpack") == 0) {
-        return Unpack(argc, argv);
+        ret = Unpack(argc, argv);
     }
     else {
         printf("Unrecognized option '%s'.\n", argv[1]);
     }
-    return 1;
+    free(arglow);
+    return ret;
 }
