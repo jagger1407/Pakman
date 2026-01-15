@@ -30,8 +30,16 @@ typedef struct _dirFiles {
  */
 u32 StrCountChar(char* str, char c);
 
+/**
+ * Creates a copy of the string in lowercase.
+ * @note Must be manually freed.
+ */
 char* StrLower(char* str);
 
+/**
+ * Gets the file size of a specified file.
+ * @note Only Linux and Windows compatibility as of right now.
+ */
 u64 GetFileSize(const char* path);
 
 /**

@@ -49,7 +49,7 @@ u64 GetFileSize(const char* path) {
 #ifdef __linux__
 
     struct stat st;
-    lstat(path, &st);
+    stat(path, &st);
     if(S_ISDIR(st.st_mode)) {
         return 0;
     }
