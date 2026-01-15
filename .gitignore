@@ -2,3 +2,5 @@
 build/
 Test/
 *.txt
+.kdev4/
+*.kdev4
