@@ -1,12 +1,13 @@
 #include "types.h"
 #include "packer.h"
 #include "unpacker.h"
+#include "decompressor.h"
 #include <string.h>
 
 const char* helpText =  
     "Pakman\n" \
     "The program for all your Pak needs.\n\n" \
-    "Syntax: pakman pack|unpack\n\n" \
+    "Syntax: pakman pack|unpack|decompress\n\n" \
     "Use either one without any arguments to see its help text.\n";
 
 int main(int argc, char** argv) {
@@ -22,6 +23,9 @@ int main(int argc, char** argv) {
     }
     else if(strcmp(arglow, "unpack") == 0) {
         ret = Unpack(argc, argv);
+    }
+    else if(strcmp(arglow, "decompress") == 0) {
+        ret = Decompress(argc, argv);
     }
     else {
         printf("Unrecognized option '%s'.\n", argv[1]);
