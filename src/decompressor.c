@@ -146,7 +146,7 @@ int Decompress(int argc, char** argv) {
         return 2;
     }
 
-    u32 fsize = GetFileSize(argv[2]);
+    u32 fsize = FileSize(argv[2]);
     u8* rawdata = (u8*)malloc(fsize);
     fread(rawdata, 1, fsize, bpe->fp);
 

@@ -86,7 +86,7 @@ int Pack(int argc, char** argv) {
             return 4;
         }
 
-        sections[i].size = GetFileSize(path);
+        sections[i].size = FileSize(path);
 
         sections[i].data = (u8*)malloc(sections[i].size);
         fread(sections[i].data, 1, sections[i].size, fp);

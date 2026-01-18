@@ -25,7 +25,7 @@ char* StrLower(char* str) {
     return lwr;
 }
 
-u64 GetFileSize(const char* path) {
+u64 FileSize(const char* path) {
     if (path == NULL || strlen(path) == 0) {
         return 0;
     }
@@ -73,7 +73,7 @@ char** ReadFileLines(const char* path, int* lineCount) {
         return NULL;
     }
 
-    u64 size = GetFileSize(path);
+    u64 size = FileSize(path);
 
     char* rawFile = (char*)malloc(size+1);
     rawFile[size] = 0x00;

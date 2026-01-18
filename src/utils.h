@@ -40,7 +40,7 @@ char* StrLower(char* str);
  * Gets the file size of a specified file.
  * @note Only Linux and Windows compatibility as of right now.
  */
-u64 GetFileSize(const char* path);
+u64 FileSize(const char* path);
 
 /**
  * Reads every line of a file.
