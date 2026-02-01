@@ -28,3 +28,18 @@ Note: If a custom alignment is used, it must be a power of 2.
 `pakman unpack [pak path] [output folder path] <section name file>`
 
 Note: If no section name file is provided, each section will be called "Section_#" where # is the index.
+
+**Decompressing Syntax:**
+`pakman decompress [cpak path] [output pak path]`
+
+## Building
+
+Requirements are:
+- GCC
+- make
+
+when these are present, the only command needed to build pakman is
+```
+make
+```
+Note: you can specify `release` or `debug` to only build that version.
