@@ -25,7 +25,7 @@ int Pack(int argc, char** argv) {
     char** sectionNames = NULL;
     if(argc <= 4) {
         fputs("ERROR: Missing the pak section file.\n", stderr);
-        return 3;
+        return 2;
     }
     sectionNames = ReadFileLines(argv[4], &scount);
 
@@ -60,7 +60,7 @@ int Pack(int argc, char** argv) {
         FreeFileLines(sectionNames);
         FreeDirFiles(df);
         fputs("ERROR: Sections are missing.", stderr);
-        return 4;
+        return 1;
     }
 
     // Reading all the files
@@ -83,7 +83,7 @@ int Pack(int argc, char** argv) {
             perror("");
             FreeDirFiles(df);
             FreeFileLines(sectionNames);
-            return 4;
+            return 3;
         }
 
         sections[i].size = FileSize(path);

@@ -7,6 +7,13 @@
 #include "pak.h"
 #include "utils.h"
 
+
+/** Unpacks the sections within a .pak file.
+ *
+ * @param argc Arg Count
+ * @param argv Arg List
+ * @return 0 on success, 1 on error with the folder path, 2 on error with the pak path.
+ */
 int Unpack(int argc, char** argv);
 
 #endif
