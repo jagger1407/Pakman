@@ -16,6 +16,7 @@ typedef struct _pak {
     u32* offsets;
     FILE* fp;
     PakSection* sections;
+    u8 bigEndian;
 } Pak;
 
 #define PAK_DEFAULTALIGN 0x10

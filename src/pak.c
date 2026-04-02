@@ -41,20 +41,42 @@ Pak* pak_Open(const char* path, int readSections) {
         pak->offsets = NULL;
         return pak;
     }
-    pak->offsets = (u32*)malloc((pak->amountSections + 1) * sizeof(u32));
-    fread(pak->offsets, sizeof(u32), pak->amountSections + 1, pak->fp);
 
-    if((pak->amountSections + 2) * sizeof(u32) > pak->offsets[0]) {
-        fputs("pak_Open - File size mismatch (Header > First offset)\n", stderr);
-        pak_Free(pak);
-        return NULL;
+    // Automatic Endian Detection
+    u32 min = pak->amountSections;
+    if(min <= SWAP32(min)) {
+        pak->bigEndian = 0;
     }
-    fseek(pak->fp, 0, SEEK_SET);
-    u32 size = FileSize(path);
-    if(size != pak->offsets[pak->amountSections]) {
-        fputs("pak_Open - File size mismatch (File size != Last offset)\n", stderr);
-        pak_Free(pak);
-        return NULL;
+    else {
+        pak->bigEndian = 1;
+        min = SWAP32(min);
+    }
+    u32 realsize = FileSize(path);
+    u32 size = 0;
+    fseek(pak->fp, min * sizeof(u32), SEEK_CUR);
+    fread(&size, sizeof(u32), 1, pak->fp);
+    if(pak->bigEndian) size = SWAP32(size);
+    if(size != realsize) {
+        fseek(pak->fp, (pak->amountSections+1)*sizeof(u32), SEEK_SET);
+        fread(&size, sizeof(u32), 1, pak->fp);
+        if(size != realsize) {
+            fprintf(stderr, "pak_Open - Pak header invalid.");
+            pak_Free(pak);
+            return NULL;
+        }
+        pak->bigEndian = !pak->bigEndian;
+    }
+    else {
+        pak->amountSections = min;
+    }
+
+    pak->offsets = (u32*)malloc(sizeof(u32) * (pak->amountSections+1));
+    fseek(pak->fp, 4, SEEK_SET);
+    fread(pak->offsets, sizeof(u32), pak->amountSections+1, pak->fp);
+    if(pak->bigEndian) {
+        for(int i=0;i<=pak->amountSections;++i) {
+            pak->offsets[i] = SWAP32(pak->offsets[i]);
+        }
     }
 
     pak->sections = NULL;

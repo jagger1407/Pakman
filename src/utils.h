@@ -77,4 +77,6 @@ void FreeDirFiles(DirFiles* files);
  */
 void FreeFileLines(char** list);
 
+#define SWAP32(x) (((x & 0xFF) << 24) + (((x >> 8) & 0xFF) << 16) + (((x >> 16) & 0xFF) << 8) + (((x >> 24) & 0xFF)))
+
 #endif
